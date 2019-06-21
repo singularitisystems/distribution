@@ -146,7 +146,9 @@ func (pbs *proxyBlobStore) ServeBlob(ctx context.Context, w http.ResponseWriter,
 			return
 		}
 
-		pbs.scheduler.AddBlob(blobRef, repositoryTTL)
+		dcontext.GetLogger(ctx).Infof("Adding blob to scheduler with TTL or: %d hours", pbs.scheduler.TTL.Hours())
+
+		pbs.scheduler.AddBlob(blobRef, pbs.scheduler.TTL)
 	}(dgst)
 
 	_, err = pbs.copyContent(ctx, dgst, w)

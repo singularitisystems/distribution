@@ -41,6 +41,7 @@ func New(ctx context.Context, driver driver.StorageDriver, path string) *TTLExpi
 		stopped:         true,
 		doneChan:        make(chan struct{}),
 		saveTimer:       time.NewTicker(indexSaveFrequency),
+		TTL:			 24 * 7 * time.Hour(),
 	}
 }
 
@@ -59,6 +60,8 @@ type TTLExpirationScheduler struct {
 
 	onBlobExpire     expiryFunc
 	onManifestExpire expiryFunc
+
+	TTL time.Duration
 
 	indexDirty bool
 	saveTimer  *time.Ticker

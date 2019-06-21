@@ -12,7 +12,7 @@ import (
 )
 
 // todo(richardscothern): from cache control header or config
-const repositoryTTL = 24 * 7 * time.Hour
+//const repositoryTTL = 24 * 7 * time.Hour
 
 type proxyManifestStore struct {
 	ctx             context.Context
@@ -77,7 +77,9 @@ func (pms proxyManifestStore) Get(ctx context.Context, dgst digest.Digest, optio
 			return nil, err
 		}
 
-		pms.scheduler.AddManifest(repoBlob, repositoryTTL)
+		dcontext.GetLogger(ctx).Infof("Adding manifest to scheduler with TTL or: %d hours", pms.scheduler.TTL.Hours())
+
+		pms.scheduler.AddManifest(repoBlob, pms.scheduler.TTL)
 		// Ensure the manifest blob is cleaned up
 		//pms.scheduler.AddBlob(blobRef, repositoryTTL)
 

@@ -631,6 +631,9 @@ type Proxy struct {
 	// RemoteURL is the URL of the remote registry
 	RemoteURL string `yaml:"remoteurl"`
 
+	// TTL (Time-to-live) of the proxy cache blobs
+	TTL time.Duration `yaml:"ttl"`
+
 	// Username of the hub user
 	Username string `yaml:"username"`
 

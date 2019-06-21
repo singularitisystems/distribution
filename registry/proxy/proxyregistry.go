@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/url"
 	"sync"
+	"time"
 
 	"github.com/docker/distribution"
 	"github.com/docker/distribution/configuration"
@@ -37,6 +38,7 @@ func NewRegistryPullThroughCache(ctx context.Context, registry distribution.Name
 
 	v := storage.NewVacuum(ctx, driver)
 	s := scheduler.New(ctx, driver, "/scheduler-state.json")
+	s.TTL = config.TTL
 	s.OnBlobExpire(func(ref reference.Reference) error {
 		var r reference.Canonical
 		var ok bool
